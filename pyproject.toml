@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "routelit-elements"
+version = "0.1.0"
+description = "RouteLit Elements"
+readme = "README.md"
+authors = [
+    {name = "RouteLit Team"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "routelit>=0.1.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+routelit = { path = "../routelit", editable = true }
+
+[project.urls]
+"Homepage" = "https://github.com/rolangom/routelit"
+"Bug Tracker" = "https://github.com/rolangom/routelit/issues" 
