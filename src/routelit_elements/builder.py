@@ -10,6 +10,29 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         }
     ]
 
+    def link(
+        self,
+        href: str,
+        text: str = "",
+        replace: bool = False,
+        is_external: bool = False,
+        key: Optional[str] = None,
+        **kwargs,
+    ):
+        self.add_non_widget(
+            RouteLitElement(
+                name="link",
+                key=key or self._new_widget_id("link", href),
+                props={
+                    "href": href,
+                    "replace": replace,
+                    "is_external": is_external,
+                    "text": text,
+                    **kwargs,
+                },
+            )
+        )
+
     def text(self, text: str, *, key: Optional[str] = None, **kwargs):
         self.add_non_widget(
             RouteLitElement(
@@ -49,7 +72,9 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
     ) -> str:
         component_id = key or self._new_widget_id("text-input", label)
         new_value = self.session_state.get(component_id, value)
-        has_changed, event_value = self._get_event_value(component_id, "change", "value")
+        has_changed, event_value = self._get_event_value(
+            component_id, "change", "value"
+        )
         if has_changed:
             new_value = event_value
             self.session_state[component_id] = new_value
@@ -77,7 +102,9 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
     ) -> bool:
         component_id = key or self._new_widget_id("checkbox", label)
         new_checked = self.session_state.get(component_id, checked)
-        has_changed, event_checked = self._get_event_value(component_id, "change", "checked")
+        has_changed, event_checked = self._get_event_value(
+            component_id, "change", "checked"
+        )
         if has_changed:
             new_checked = event_checked
             self.session_state[component_id] = new_checked
@@ -90,7 +117,9 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         )
         return new_checked
 
-    def expander(self, title: str, *, open: Optional[bool] = None, key: Optional[str] = None) -> "RouteLitComponentsBuilder":
+    def expander(
+        self, title: str, *, open: Optional[bool] = None, key: Optional[str] = None
+    ) -> "RouteLitComponentsBuilder":
         """
         Creates an expander component that can be used as both a context manager and a regular function call.
         ```python
@@ -115,7 +144,25 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
             props={"title": title, "open": open},
         )
 
-        builder = RouteLitComponentsBuilder(
+        builder = self.__class__(
+            self.request,
+            prefix=new_key,
+            session_state=self.session_state,
+            parent_element=new_element,
+            parent_builder=self,
+        )
+        return builder
+
+    def link_area(
+        self, href: str, *, key: Optional[str] = None, **kwargs
+    ) -> "RouteLitComponentsBuilder":
+        new_key = key or self._new_widget_id("link", href)
+        new_element = self.create_element(
+            name="link",
+            key=new_key,
+            props={"href": href, "className": "no-link-decoration", **kwargs},
+        )
+        builder = self.__class__(
             self.request,
             prefix=new_key,
             session_state=self.session_state,
