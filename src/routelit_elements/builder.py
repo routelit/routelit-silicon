@@ -10,6 +10,29 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         }
     ]
 
+    def _init_sidebar(self) -> "RouteLitComponentsBuilder":
+        new_key = "sidebar"
+        new_element = self.create_element(
+            name="panel",
+            key=new_key,
+            props={},
+        )
+        builder = self.__class__(
+            self.request,
+            prefix=new_key,
+            session_state=self.session_state,
+            parent_element=new_element,
+            parent_builder=self,
+        )
+        return builder
+
+    def _on_init(self):
+        self._sidebar = self._init_sidebar()
+
+    @property
+    def sidebar(self) -> "RouteLitComponentsBuilder":
+        return self._sidebar
+
     def link(
         self,
         href: str,
