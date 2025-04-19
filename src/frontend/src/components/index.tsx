@@ -5,5 +5,19 @@ import Panel from "./panel";
 import Checkbox from "./checkbox";
 import Expander from "./expander";
 import Link from "./link";
+import Root from "./root";
+import Sidebar from "./sidebar";
+import Main from "./main";
 
-export { TextInput, Button, Text, Panel, Checkbox, Expander, Link };
+export {
+  TextInput,
+  Button,
+  Text,
+  Panel,
+  Checkbox,
+  Expander,
+  Link,
+  Root,
+  Sidebar,
+  Main,
+};

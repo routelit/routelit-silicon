@@ -10,28 +10,51 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         }
     ]
 
-    def _init_sidebar(self) -> "RouteLitComponentsBuilder":
-        new_key = "sidebar"
-        new_element = self.create_element(
-            name="panel",
-            key=new_key,
-            props={},
-        )
+    def _build_nested_builder(self, element: RouteLitElement) -> "RouteLitComponentsBuilder":
         builder = self.__class__(
             self.request,
-            prefix=new_key,
+            prefix=element.key,
             session_state=self.session_state,
-            parent_element=new_element,
+            parent_element=element,
             parent_builder=self,
         )
         return builder
+    
+    def _init_sidebar(self) -> "RouteLitComponentsBuilder":
+        new_element = self.create_element(
+            name="sidebar",
+            key="sidebar",
+            props={},
+        )
+        return self._build_nested_builder(new_element)
+    
+    def _init_root(self) -> "RouteLitComponentsBuilder":
+        new_element = self.create_element(
+            name="root",
+            key="root",
+            props={},
+        )
+        return self._build_nested_builder(new_element)
 
     def _on_init(self):
-        self._sidebar = self._init_sidebar()
+        self._root = self._init_root()
+        with self._root:
+            self._sidebar = self._init_sidebar()
+            self._main = self._init_main()
+        self.parent_element = self._main.parent_element
+        self.active_child_builder = self._main
 
     @property
     def sidebar(self) -> "RouteLitComponentsBuilder":
         return self._sidebar
+    
+    def _init_main(self) -> "RouteLitComponentsBuilder":
+        new_element = self.create_element(
+            name="main",
+            key="main",
+            props={},
+        )
+        return self._build_nested_builder(new_element)
 
     def link(
         self,
@@ -147,16 +170,16 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         Creates an expander component that can be used as both a context manager and a regular function call.
         ```python
         Usage:
-            def build_index_view(builder: RouteLitBuilder):
+            def build_index_view(rl: RouteLitBuilder):
                 # Context manager style
-                with builder.expander("Title"):
-                    builder.text("Content")
+                with rl.expander("Title"):
+                    rl.text("Content")
 
-                with builder.expander("Title", open=True) as exp0:
+                with rl.expander("Title", open=True) as exp0:
                     exp0.text("Content")
 
                 # Function call style
-                exp = builder.expander("Title")
+                exp = rl.expander("Title")
                 exp.text("Content")
         ```
         """
@@ -166,15 +189,7 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
             key=new_key,
             props={"title": title, "open": open},
         )
-
-        builder = self.__class__(
-            self.request,
-            prefix=new_key,
-            session_state=self.session_state,
-            parent_element=new_element,
-            parent_builder=self,
-        )
-        return builder
+        return self._build_nested_builder(new_element)
 
     def link_area(
         self, href: str, *, key: Optional[str] = None, **kwargs
@@ -185,11 +200,4 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
             key=new_key,
             props={"href": href, "className": "no-link-decoration", **kwargs},
         )
-        builder = self.__class__(
-            self.request,
-            prefix=new_key,
-            session_state=self.session_state,
-            parent_element=new_element,
-            parent_builder=self,
-        )
-        return builder
+        return self._build_nested_builder(new_element)
