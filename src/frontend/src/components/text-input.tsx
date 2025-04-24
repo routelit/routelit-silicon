@@ -1,5 +1,5 @@
-import { memo } from "react";
-// import { useDebouncedValue } from "routelit-client";
+import { memo, useRef } from "react";
+import { useDispatcherWithAttr } from "routelit-client";
 
 const TextInput = memo(function TextInput({
   id,
@@ -15,20 +15,23 @@ const TextInput = memo(function TextInput({
   helpText?: string;
   errorText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
-  const dispatchChange = (val: string) => {
-    const event = new CustomEvent("routelit:event", {
-      detail: { id, type: "change", value: val },
-    });
-    document.dispatchEvent(event);
-  };
+  const dispatchChange = useDispatcherWithAttr(id, "change", "value");
+  const lastValueRef = useRef(value);
+
+  function handleChange(newValue: string) {
+    if (newValue !== lastValueRef.current) {
+      dispatchChange(newValue);
+      lastValueRef.current = newValue;
+    }
+  }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    dispatchChange(e.target.value);
+    handleChange(e.target.value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      dispatchChange((e.target as HTMLInputElement).value);
+      handleChange((e.target as HTMLInputElement).value);
     }
   };
 

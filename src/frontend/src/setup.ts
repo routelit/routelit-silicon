@@ -1,4 +1,4 @@
-import { manager } from "routelit-client";
+import { componentStore } from "routelit-client";
 import {
   Button,
   Checkbox,
@@ -6,20 +6,19 @@ import {
   Text,
   TextInput,
   Panel,
-  Link,
   Root,
   Sidebar,
   Main,
 } from "./components";
 
-manager.registerComponent("button", Button);
-manager.registerComponent("checkbox", Checkbox);
-manager.registerComponent("expander", Expander);
-manager.registerComponent("text", Text);
-manager.registerComponent("text-input", TextInput);
-manager.registerComponent("panel", Panel);
-manager.registerComponent("link", Link);
-manager.registerComponent("root", Root);
-manager.registerComponent("sidebar", Sidebar);
-manager.registerComponent("main", Main);
-manager.forceUpdate();
+componentStore.register("button", Button);
+componentStore.register("checkbox", Checkbox);
+componentStore.register("expander", Expander);
+componentStore.register("text", Text);
+componentStore.register("text-input", TextInput);
+componentStore.register("panel", Panel);
+componentStore.register("root", Root);
+componentStore.register("sidebar", Sidebar);
+componentStore.register("main", Main);
+
+componentStore.forceUpdate();

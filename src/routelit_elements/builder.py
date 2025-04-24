@@ -1,5 +1,5 @@
 from typing import Callable, Optional, Sequence
-from routelit.domain import RouteLitElement, RouteLitBuilder, AssetTarget
+from routelit import RouteLitBuilder, AssetTarget
 
 
 class RouteLitComponentsBuilder(RouteLitBuilder):
@@ -10,15 +10,6 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         }
     ]
 
-    def _build_nested_builder(self, element: RouteLitElement) -> "RouteLitComponentsBuilder":
-        builder = self.__class__(
-            self.request,
-            prefix=element.key,
-            session_state=self.session_state,
-            parent_element=element,
-            parent_builder=self,
-        )
-        return builder
     
     def _init_sidebar(self) -> "RouteLitComponentsBuilder":
         new_element = self.create_element(
@@ -37,12 +28,19 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         return self._build_nested_builder(new_element)
 
     def _on_init(self):
+        pass
+
+    def _config_sidebar(self):
         self._root = self._init_root()
         with self._root:
             self._sidebar = self._init_sidebar()
             self._main = self._init_main()
         self.parent_element = self._main.parent_element
         self.active_child_builder = self._main
+
+    def set_config(self, use_sidebar: bool = True):
+        if use_sidebar:
+            self._config_sidebar()
 
     @property
     def sidebar(self) -> "RouteLitComponentsBuilder":
@@ -52,40 +50,14 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
         new_element = self.create_element(
             name="main",
             key="main",
-            props={},
         )
         return self._build_nested_builder(new_element)
 
-    def link(
-        self,
-        href: str,
-        text: str = "",
-        replace: bool = False,
-        is_external: bool = False,
-        key: Optional[str] = None,
-        **kwargs,
-    ):
-        self.add_non_widget(
-            RouteLitElement(
-                name="link",
-                key=key or self._new_widget_id("link", href),
-                props={
-                    "href": href,
-                    "replace": replace,
-                    "is_external": is_external,
-                    "text": text,
-                    **kwargs,
-                },
-            )
-        )
-
     def text(self, text: str, *, key: Optional[str] = None, **kwargs):
-        self.add_non_widget(
-            RouteLitElement(
-                name="text",
-                key=key or self._new_text_id("text"),
-                props={"text": text, **kwargs},
-            )
+        self.create_non_widget_element(
+            name="text",
+            key=key or self._new_text_id("text"),
+            props={"text": text, **kwargs},
         )
 
     def button(
@@ -188,16 +160,5 @@ class RouteLitComponentsBuilder(RouteLitBuilder):
             name="expander",
             key=new_key,
             props={"title": title, "open": open},
-        )
-        return self._build_nested_builder(new_element)
-
-    def link_area(
-        self, href: str, *, key: Optional[str] = None, **kwargs
-    ) -> "RouteLitComponentsBuilder":
-        new_key = key or self._new_widget_id("link", href)
-        new_element = self.create_element(
-            name="link",
-            key=new_key,
-            props={"href": href, "className": "no-link-decoration", **kwargs},
         )
         return self._build_nested_builder(new_element)
