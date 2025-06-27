@@ -1,8 +1,9 @@
 from typing import ClassVar
-from routelit import RouteLitBuilder, AssetTarget
+
+from routelit import AssetTarget, RouteLitBuilder  # type: ignore[import-untyped]
 
 
-class RLBuilder(RouteLitBuilder):
+class RLBuilder(RouteLitBuilder):  # type: ignore[no-any-unimported]
     """
     A builder for a RouteLit application with a sidebar.
     The related frontend uses silicon.css for styling.
@@ -10,7 +11,7 @@ class RLBuilder(RouteLitBuilder):
     You could use this same idea to create other areas, such as a header, footer, etc.
     """
 
-    static_assets_targets: ClassVar[list[AssetTarget]] = [
+    static_assets_targets: ClassVar[list[AssetTarget]] = [  # type: ignore[no-any-unimported]
         {
             "package_name": "routelit_silicon",
             "path": "static",
@@ -22,14 +23,14 @@ class RLBuilder(RouteLitBuilder):
             name="sidebar",
             key="sidebar",
         )
-        return self._build_nested_builder(new_element)
+        return self._build_nested_builder(new_element)  # type: ignore[no-any-return]
 
     def _init_root(self) -> "RLBuilder":
         new_element = self._create_element(
             name="root",
             key="root",
         )
-        return self._build_nested_builder(new_element)
+        return self._build_nested_builder(new_element)  # type: ignore[no-any-return]
 
     def _on_init(self) -> None:
         # we could configure the sidebar to be set by default by calling `self._config_sidebar()` here
@@ -41,7 +42,7 @@ class RLBuilder(RouteLitBuilder):
         with self._root:
             self._sidebar = self._init_sidebar()
             self._main = self._init_main()
-        self.parent_element = self._main.parent_element
+        self.parent_element = self._main.parent_element  # type: ignore[has-type]
         self.active_child_builder = self._main
 
     def set_config(self, use_sidebar: bool = True) -> None:
@@ -83,4 +84,4 @@ class RLBuilder(RouteLitBuilder):
             name="main",
             key="main",
         )
-        return self._build_nested_builder(new_element)
+        return self._build_nested_builder(new_element)  # type: ignore[no-any-return]

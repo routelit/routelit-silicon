@@ -1,8 +1,8 @@
 from flask import Flask
+from routelit import RouteLit  # type: ignore[import-untyped]
+from routelit_flask import RouteLitFlaskAdapter  # type: ignore[import-untyped]
 
-from routelit import RouteLit
-from routelit_flask import RouteLitFlaskAdapter
-from routelit_silicon import RLBuilder
+from routelit_silicon import RLBuilder  # type: ignore[import-untyped]
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ routelit_adapter = RouteLitFlaskAdapter(
 ).configure(app)
 
 
-def view(ui: RLBuilder):
+def view(ui: RLBuilder) -> None:  # type: ignore[no-any-unimported]
     ui.set_config(use_sidebar=True)
     with ui.sidebar:
         ui.title("Sidebar")
@@ -25,7 +25,7 @@ def view(ui: RLBuilder):
 
     ui.sidebar.text("Hello, world! from sidebar")
 
-    if 'counter' not in ui.session_state:
+    if "counter" not in ui.session_state:
         ui.session_state.counter = 0
     if ui.button("Click me", event_name="submit"):
         ui.session_state.counter += 1
@@ -37,9 +37,9 @@ def view(ui: RLBuilder):
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
-    return routelit_adapter.response(view)
+def index() -> str:
+    return routelit_adapter.response(view)  # type: ignore[no-any-return]
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True)  # noqa: S201

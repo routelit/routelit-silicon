@@ -1,6 +1,7 @@
-import pytest
+from collections.abc import Mapping
+from typing import Any
 
-from typing import Any, Mapping
+import pytest
 from routelit import RouteLitRequest
 from routelit.domain import PropertyDict
 

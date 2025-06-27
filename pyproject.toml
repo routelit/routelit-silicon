@@ -39,6 +39,7 @@ dev = [
     "mkdocs-material>=8.5.10",
     "mkdocstrings[python]>=0.26.1",
     "routelit-flask>=0.2.0",
+    "flask>=2.0.0",
 ]
 
 [build-system]
@@ -118,3 +119,6 @@ skip_empty = true
 [tool.coverage.run]
 branch = true
 source = ["src"]
+
+[tool.deptry]
+extend_exclude = ["src/example"]
