@@ -1,6 +1,6 @@
 import { useState, type PropsWithChildren } from "react";
 
-interface SidebarProps {
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultOpen?: boolean;
 }
 
@@ -17,15 +17,15 @@ function ToggleButton({ isOpen, toggle }: ToggleButtonProps) {
   );
 }
 
-function Sidebar({ defaultOpen, children }: PropsWithChildren<SidebarProps>) {
+function Sidebar({ defaultOpen, children, className, ...props }: PropsWithChildren<SidebarProps>) {
   const [isOpen, setIsOpen] = useState(defaultOpen || false);
   return (
-    <>
-      <ToggleButton isOpen={isOpen} toggle={() => setIsOpen(!isOpen)} />
-      <aside className={`ho-resize ${isOpen ? "" : "hidden"}`}>
+    <aside className={className} {...props}>
+      <div className={`content ${isOpen ? "" : "hidden"}`}>
         {children}
-      </aside>
-    </>
+      </div>
+      <ToggleButton isOpen={isOpen} toggle={() => setIsOpen(!isOpen)} />
+    </aside>
   );
 }
 

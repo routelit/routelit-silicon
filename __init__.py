@@ -1,3 +1,3 @@
-from .src.routelit_elements import RouteLitComponentsBuilder
+from routelit_silicon import RLBuilder
 
-__all__ = ["RouteLitComponentsBuilder"]
+__all__ = ["RLBuilder"]

@@ -11,15 +11,15 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../routelit_elements/static',
+    outDir: '../routelit_silicon/static',
     emptyOutDir: true,
     manifest: true, // Generate manifest.json for asset tracking
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'RoutelitElements', // PascalCase name for UMD build
+      name: 'RoutelitSilicon', // PascalCase name for UMD build
       // the proper extensions will be added
-      fileName: (format) => `routelit-elements.${format}.js`,
+      fileName: (format) => `routelit-silicon.${format}.js`,
       formats: ['es', 'umd'] // Specify desired output formats
     },
     rollupOptions: {

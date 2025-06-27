@@ -2,37 +2,18 @@ body {
   width: inherit !important;
 }
 
-.no-link-decoration {
-  text-decoration: none;
-  color: inherit;
+aside {
+  position: relative;
 }
-
-.no-link-decoration:hover {
-  text-decoration: none;
-  color: inherit;
+aside .content {
+  min-width: 200px;
 }
-
-.no-link-decoration:active {
-  text-decoration: none;
-  color: inherit;
-}
-
-.panel {
-  background-color: #f0f0f0;
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-
 
 .sidebar-toggle {
   padding: 10px;
-  position: static;
+  position: absolute;
   top: 0;
-  left: 0;
-}
-
-aside {
-  min-width: 200px;
+  right: 0;
 }
 
 main {
