@@ -1,6 +1,6 @@
 [project]
 name = "routelit-silicon"
-version = "0.1.0"
+version = "0.1.1"
 description = "RouteLit Silicon is a Python library that extends RouteLit Builder with pre-built UI components and layouts."
 authors = [{ name = "Rolando Gómez Tabar", email = "rolangom@gmail.com" }]
 readme = "README.md"
@@ -43,11 +43,14 @@ dev = [
 ]
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/routelit_silicon"]
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+routelit_silicon = ["static/**/*"]
 
 [tool.mypy]
 files = ["src"]
