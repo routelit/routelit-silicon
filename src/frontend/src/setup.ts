@@ -11,4 +11,3 @@ componentStore.register("root", Root);
 componentStore.register("sidebar", Sidebar);
 componentStore.register("main", Main);
 componentStore.forceUpdate();
-
