@@ -2,8 +2,7 @@ from collections.abc import Mapping
 from typing import Any
 
 import pytest
-from routelit import RouteLitRequest
-from routelit.domain import PropertyDict
+from routelit import RouteLitRequest, PropertyDict
 
 from routelit_silicon.builder import RLBuilder
 

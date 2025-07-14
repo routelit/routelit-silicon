@@ -42,7 +42,7 @@ class RLBuilder(RouteLitBuilder):  # type: ignore[no-any-unimported]
         with self._root:
             self._sidebar = self._init_sidebar()
             self._main = self._init_main()
-        self.parent_element = self._main.parent_element  # type: ignore[has-type]
+        self._parent_element = self._main._parent_element  # type: ignore[has-type]
         self.active_child_builder = self._main
 
     def set_config(self, use_sidebar: bool = True) -> None:

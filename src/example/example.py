@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Response
 from routelit import RouteLit  # type: ignore[import-untyped]
 from routelit_flask import RouteLitFlaskAdapter  # type: ignore[import-untyped]
 
@@ -37,8 +37,8 @@ def view(ui: RLBuilder) -> None:  # type: ignore[no-any-unimported]
 
 
 @app.route("/", methods=["GET", "POST"])
-def index() -> str:
-    return routelit_adapter.response(view)  # type: ignore[no-any-return]
+def index() -> Response:
+    return routelit_adapter.stream_response(view)  # type: ignore[no-any-return]
 
 
 if __name__ == "__main__":

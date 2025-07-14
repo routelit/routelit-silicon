@@ -1,6 +1,6 @@
 [project]
 name = "routelit-silicon"
-version = "0.1.2"
+version = "0.2.0"
 description = "RouteLit Silicon is a Python library that extends RouteLit Builder with pre-built UI components and layouts."
 authors = [{ name = "Rolando Gómez Tabar", email = "rolangom@gmail.com" }]
 readme = "README.md"
@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "routelit>=0.3.1",
+    "routelit>=0.4.2",
 ]
 
 [project.urls]
@@ -38,7 +38,7 @@ dev = [
     "mkdocs>=1.4.2",
     "mkdocs-material>=8.5.10",
     "mkdocstrings[python]>=0.26.1",
-    "routelit-flask>=0.2.0",
+    "routelit-flask>=0.4.1",
     "flask>=2.0.0",
 ]
 

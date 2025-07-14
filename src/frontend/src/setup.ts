@@ -12,4 +12,3 @@ componentStore.register("sidebar", Sidebar);
 componentStore.register("main", Main);
 componentStore.forceUpdate();
 
-console.log(" setup done routelit elements ", componentStore);
