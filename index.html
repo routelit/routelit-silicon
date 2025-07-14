@@ -467,7 +467,7 @@ def view(ui: RLBuilder):
 
 @app.route(&quot;/&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])
 def index():
-    return routelit_adapter.response(view)
+    return routelit_adapter.stream_response(view)
 
 
 if __name__ == &quot;__main__&quot;:
